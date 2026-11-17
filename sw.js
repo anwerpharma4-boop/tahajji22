@@ -1,0 +1,4 @@
+const C='tahajji-v4';const F=["./", "index.html", "words.js", "manifest.json", "icon-192.png", "icon-512.png", "pages/b0.js", "pages/b1.js", "pages/b2.js", "pages/b3.js", "pages/b4.js", "pages/b5.js", "pages/b6.js", "pages/a0.js", "pages/a1.js", "pages/a2.js", "pages/a3.js", "pages/a4.js", "pages/a5.js", "pages/a6.js"];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.allSettled(F.map(u=>c.add(u)))));self.skipWaiting()});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))));self.clients.claim()});
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request,{ignoreSearch:true}).then(r=>r||fetch(e.request).then(res=>{if(res.ok){const cp=res.clone();caches.open(C).then(c=>c.put(e.request,cp))}return res})))});
